@@ -82,7 +82,6 @@ export const App = () => {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240,
                   }}
                 >
                   <ShoeType sneaker={sneaker} onSave={saveSneaker}></ShoeType>

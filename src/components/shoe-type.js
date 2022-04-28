@@ -4,6 +4,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@mui/material";
 import { SNEAKER_RARITY, SNEAKER_TYPE } from "../constants/sneaker.constants";
 
@@ -32,29 +33,48 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
     onSave(newSneaker);
   };
 
-  return sneakerType  && (
-    <Container>
-      <FormControl fullWidth>
-        <InputLabel id="rarity">Rarity</InputLabel>
-        <Select
-          value={sneakerType.rarity}
-          label="Rarity"
-          onChange={onRarityChange}
-        >
-          {renderRarityOptions()}
-        </Select>
-      </FormControl>
-      <FormControl fullWidth>
-        <InputLabel id="type">Type</InputLabel>
-        <Select
-          value={sneakerType.type}
-          label="Type"
-          onChange={onTypeChange}
-        >
-          {renderTypeOptions()}
-        </Select>
-      </FormControl>
-      
-    </Container>
+  return (
+    sneakerType && (
+      <Container>
+        <FormControl fullWidth margin='normal'>
+          <InputLabel id="rarity">Rarity</InputLabel>
+          <Select
+            value={sneakerType.rarity}
+            label="Rarity"
+            onChange={onRarityChange}
+          >
+            {renderRarityOptions()}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin='normal'>
+          <InputLabel id="type">Type</InputLabel>
+          <Select value={sneakerType.type} label="Type" onChange={onTypeChange}>
+            {renderTypeOptions()}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth margin='normal'>
+          <TextField
+            label="Level"
+            type="number"
+            variant="outlined"
+            value={sneakerType.level}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </FormControl>
+        <FormControl fullWidth margin='normal'>
+          <TextField
+            label="Daily Energy"
+            type="number"
+            variant="outlined"
+            value={sneakerType.dailyEnergy}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </FormControl>
+      </Container>
+    )
   );
 };

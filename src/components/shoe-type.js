@@ -33,6 +33,18 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
     onSave(newSneaker);
   };
 
+  const onLevelChange = ({ target: { value } }) => {
+    const newSneaker = { ...sneaker };
+    newSneaker.type.level = value;
+    onSave(newSneaker);
+  };
+
+  const onEnergyChange = ({ target: { value } }) => {
+    const newSneaker = { ...sneaker };
+    newSneaker.type.dailyEnergy = value;
+    onSave(newSneaker);
+  };
+
   return (
     sneakerType && (
       <Container>
@@ -58,9 +70,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
             type="number"
             variant="outlined"
             value={sneakerType.level}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onChange={onLevelChange}
           />
         </FormControl>
         <FormControl fullWidth margin='normal'>
@@ -68,10 +78,8 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
             label="Daily Energy"
             type="number"
             variant="outlined"
-            value={sneakerType.dailyEnergy}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            value={sneakerType.dailyEnergy}        
+            onChange={onEnergyChange}               
           />
         </FormControl>
       </Container>

@@ -30,6 +30,26 @@ export const App = () => {
     }
   };
 
+  const addSneaker = async (sneaker) => {
+    console.log("sneaker", sneaker);
+    await db.sneakers.add({
+      ...sneaker,
+    });
+  };
+
+  const editSneaker = async (newSneaker) => {
+    await db.sneakers.update(sneaker, { ...sneaker, ...newSneaker });
+  };
+
+
+  const saveSneaker = async (sneaker) => {
+    if (sneaker.id) {
+      editSneaker(sneaker);
+    } else {
+      addSneaker(sneaker);
+    }
+  }
+
   const renderSneakerItems = () =>
     sneakers &&
     sneakers.map((sneaker) => (
@@ -65,7 +85,7 @@ export const App = () => {
                     height: 240,
                   }}
                 >
-                  <ShoeType sneaker={sneaker}></ShoeType>
+                  <ShoeType sneaker={sneaker} onSave={saveSneaker}></ShoeType>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
@@ -77,7 +97,7 @@ export const App = () => {
                     height: 240,
                   }}
                 >
-                  <ShoeSockets sneaker={sneaker}></ShoeSockets>
+                  <ShoeSockets sneaker={sneaker} onSave={saveSneaker}></ShoeSockets>
                 </Paper>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
@@ -89,7 +109,7 @@ export const App = () => {
                     height: 240,
                   }}
                 >
-                  <ShoeAttributes sneaker={sneaker}></ShoeAttributes>
+                  <ShoeAttributes sneaker={sneaker} onSave={saveSneaker}></ShoeAttributes>
                 </Paper>
               </Grid>
           </Grid>

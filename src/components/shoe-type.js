@@ -13,7 +13,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
 
   const renderRarityOptions = () =>
     Object.values(SNEAKER_RARITY).map((rarity) => (
-      <MenuItem value={rarity}>{rarity.toString().toUpperCase()}</MenuItem>
+      <MenuItem value={rarity.label}>{rarity.label.toString().toUpperCase()}</MenuItem>
     ));
 
   const onRarityChange = ({ target: { value } }) => {

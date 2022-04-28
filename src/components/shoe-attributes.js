@@ -1,13 +1,16 @@
 import { Grid, TextField } from "@mui/material";
+import { pointsAvailable } from "../constants/calc.constants";
 
 export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
-  const { attributes = {} } = sneaker;
+  const { attributes = {}, type: sneakerType = {} } = sneaker;
+
+  const points = pointsAvailable(sneakerType);
 
   const handleChange = (attribute, value) => {
     const newSneaker = { ...sneaker };
     newSneaker.attributes[attribute] = value;
     onSave(newSneaker);
-  }
+  };
 
   return (
     <Grid container spacing={2}>
@@ -24,7 +27,13 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         Efficiency
       </Grid>
       <Grid item xs={3}>
-      <TextField value={attributes.efficiency} variant="standard" onChange={({target: {value}}) => handleChange('efficiency', value)}/>
+        <TextField
+          value={attributes.efficiency}
+          variant="standard"
+          onChange={({ target: { value } }) =>
+            handleChange("efficiency", value)
+          }
+        />
       </Grid>
       <Grid item xs={3}>
         Total
@@ -33,7 +42,11 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         Luck
       </Grid>
       <Grid item xs={3}>
-      <TextField value={attributes.luck} variant="standard" onChange={({target: {value}}) => handleChange('luck', value)}/>
+        <TextField
+          value={attributes.luck}
+          variant="standard"
+          onChange={({ target: { value } }) => handleChange("luck", value)}
+        />
       </Grid>
       <Grid item xs={3}>
         Total
@@ -42,7 +55,11 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         Comfort
       </Grid>
       <Grid item xs={3}>
-      <TextField value={attributes.comfort} variant="standard" onChange={({target: {value}}) => handleChange('comfort', value)}/>
+        <TextField
+          value={attributes.comfort}
+          variant="standard"
+          onChange={({ target: { value } }) => handleChange("comfort", value)}
+        />
       </Grid>
       <Grid item xs={3}>
         Total
@@ -51,10 +68,19 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         Resilience
       </Grid>
       <Grid item xs={3}>
-      <TextField value={attributes.resilience} variant="standard" onChange={({target: {value}}) => handleChange('resilience', value)}/>
+        <TextField
+          value={attributes.resilience}
+          variant="standard"
+          onChange={({ target: { value } }) =>
+            handleChange("resilience", value)
+          }
+        />
       </Grid>
       <Grid item xs={3}>
         Total
+      </Grid>
+      <Grid item xs={6}>
+        Points: {points}
       </Grid>
     </Grid>
   );

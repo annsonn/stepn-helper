@@ -9,7 +9,7 @@ import {
 import { SNEAKER_RARITY, SNEAKER_TYPE } from "../constants/sneaker.constants";
 
 export const ShoeType = ({ sneaker = {}, onSave }) => {
-  const { type: sneakerType = {} } = sneaker;
+  const { type: sneakerType = { rarity: 'common', type: 'walker'} } = sneaker;
 
   const renderRarityOptions = () =>
     Object.values(SNEAKER_RARITY).map((rarity) => (

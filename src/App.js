@@ -1,12 +1,21 @@
 import "./App.css";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "./db";
-import { Button, Container, FormControl, Grid, InputLabel, MenuItem, Paper, Select } from "@mui/material";
+import {
+  Button,
+  Container,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+} from "@mui/material";
 import { useState } from "react";
 import { NEW_SNEAKER } from "./constants/sneaker.constants";
 import { NavBar } from "./components/navbar";
 import { ShoeType } from "./components/shoe-type";
-import { ShoeSockets } from './components/shoe-sockets';
+import { ShoeSockets } from "./components/shoe-sockets";
 import { ShoeAttributes } from "./components/shoe-attributes";
 
 export const getSelectedSneaker = (list = []) =>
@@ -19,28 +28,29 @@ export const App = () => {
   const deleteAll = async () => {
     await db.delete();
     console.log("Database successfully deleted");
-  }
+  };
 
-  const handleSelectSneaker = ({target: { value: shoe } = {}}) => {
-    console.log('selected shoe', shoe);
+  const handleSelectSneaker = ({ target: { value: shoe } = {} }) => {
+    console.log("selected shoe", shoe);
     if (shoe) {
       setSneaker(shoe);
     } else {
-      setSneaker({...NEW_SNEAKER});
+      setSneaker({ ...NEW_SNEAKER });
     }
   };
 
   const addSneaker = async (sneaker) => {
-    console.log("sneaker", sneaker);
-    await db.sneakers.add({
+    console.log("addSneaker", sneaker);
+    const savedSneakerId = await db.sneakers.add({
       ...sneaker,
     });
+    setSneaker({ ...sneaker, id: savedSneakerId });
   };
 
   const editSneaker = async (newSneaker) => {
+    console.log("editSneaker", sneaker);
     await db.sneakers.update(sneaker, { ...sneaker, ...newSneaker });
   };
-
 
   const saveSneaker = async (sneaker) => {
     if (sneaker.id) {
@@ -48,7 +58,7 @@ export const App = () => {
     } else {
       addSneaker(sneaker);
     }
-  }
+  };
 
   const renderSneakerItems = () =>
     sneakers &&
@@ -62,57 +72,62 @@ export const App = () => {
     <div className="App">
       <NavBar />
       <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Sneaker</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={sneaker}
-              label="Select Sneaker"
-              onChange={handleSelectSneaker}
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">Sneaker</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sneaker}
+            label="Select Sneaker"
+            onChange={handleSelectSneaker}
+          >
+            {renderSneakerItems()}
+            <MenuItem value={0}>Add New Sneaker+</MenuItem>
+          </Select>
+        </FormControl>
+        <Grid container spacing={3} p={2}>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
-              {renderSneakerItems()}
-              <MenuItem value={0}>Add New Sneaker+</MenuItem>
-            </Select>
-          </FormControl>
-          <Grid container spacing={3} p={2}>
-            <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <ShoeType sneaker={sneaker} onSave={saveSneaker}></ShoeType>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <ShoeSockets sneaker={sneaker} onSave={saveSneaker}></ShoeSockets>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  <ShoeAttributes sneaker={sneaker} onSave={saveSneaker}></ShoeAttributes>
-                </Paper>
-              </Grid>
+              <ShoeType sneaker={sneaker} onSave={saveSneaker}></ShoeType>
+            </Paper>
           </Grid>
-          <Button color="error" onClick={deleteAll}>Delete All</Button>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 240,
+              }}
+            >
+              <ShoeSockets sneaker={sneaker} onSave={saveSneaker}></ShoeSockets>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 240,
+              }}
+            >
+              <ShoeAttributes
+                sneaker={sneaker}
+                onSave={saveSneaker}
+              ></ShoeAttributes>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Button color="error" onClick={deleteAll}>
+          Delete All
+        </Button>
       </Container>
     </div>
   );

@@ -1,11 +1,15 @@
 import { Grid, TextField } from "@mui/material";
-import { calcBaseAttributePlaceholder, pointsAvailable } from "../constants/calc.constants";
+import {
+  calcBaseAttributePlaceholder,
+  pointsAvailable,
+} from "../calculations/stats";
 
 export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
-  const { attributes = {}, type: sneakerType = {} } = sneaker;
+  const { attributes: { baseStats = {}, addedStats = {} } = {}, type: sneakerType = {} } =
+    sneaker;
 
   const points = pointsAvailable(sneakerType);
-  const baseAttributePlaceholder = calcBaseAttributePlaceholder(sneakerType)
+  const baseAttributePlaceholder = calcBaseAttributePlaceholder(sneakerType);
 
   const updateBaseStats = (attribute, value) => {
     const newSneaker = { ...sneaker };
@@ -29,7 +33,7 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       </Grid>
       <Grid item xs={3}>
         <TextField
-          value={attributes.efficiency}
+          value={baseStats.efficiency}
           placeholder={baseAttributePlaceholder}
           variant="standard"
           onChange={({ target: { value } }) =>
@@ -38,42 +42,59 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         />
       </Grid>
       <Grid item xs={3}>
-        Total
+        <TextField
+          value={addedStats.efficiency}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
       </Grid>
       <Grid item xs={6}>
         Luck
       </Grid>
       <Grid item xs={3}>
         <TextField
-          value={attributes.luck}
+          value={baseStats.luck}
           placeholder={baseAttributePlaceholder}
           variant="standard"
           onChange={({ target: { value } }) => updateBaseStats("luck", value)}
         />
       </Grid>
       <Grid item xs={3}>
-        Total
+        <TextField
+          value={addedStats.luck}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
       </Grid>
       <Grid item xs={6}>
         Comfort
       </Grid>
       <Grid item xs={3}>
         <TextField
-          value={attributes.comfort}
+          value={baseStats.comfort}
           placeholder={baseAttributePlaceholder}
           variant="standard"
-          onChange={({ target: { value } }) => updateBaseStats("comfort", value)}
+          onChange={({ target: { value } }) =>
+            updateBaseStats("comfort", value)
+          }
         />
       </Grid>
       <Grid item xs={3}>
-        Total
+        <TextField
+          value={addedStats.comfort}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
       </Grid>
       <Grid item xs={6}>
         Resilience
       </Grid>
       <Grid item xs={3}>
         <TextField
-          value={attributes.resilience}
+          value={baseStats.resilience}
           placeholder={baseAttributePlaceholder}
           variant="standard"
           onChange={({ target: { value } }) =>
@@ -82,7 +103,12 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         />
       </Grid>
       <Grid item xs={3}>
-        Total
+        <TextField
+          value={addedStats.resilience}
+          InputProps={{
+            readOnly: true,
+          }}
+        />
       </Grid>
       <Grid item xs={6}>
         Points: {points}

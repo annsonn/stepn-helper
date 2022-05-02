@@ -1,5 +1,3 @@
-import { SNEAKER_RARITY } from "./sneaker.constants";
-
 export const repairCostBase = {
   common: [
     0.31, 0.32, 0.33, 0.35, 0.36, 0.37, 0.38, 0.4, 0.41, 0.42, 0.44, 0.46, 0.48,
@@ -31,15 +29,3 @@ export const gemsSocketsParams = {
   socketBonus: [0, 0, 10, 20, 30, 50],
 };
 
-export const pointsAvailable = ({ level = 0, rarity = "" }, pointUsed) => {
-  return (
-    level && rarity && SNEAKER_RARITY[rarity].levelup * level - (pointUsed || 0)
-  );
-};
-
-export const calcBaseAttributePlaceholder = ({ rarity = "" }) => {
-  return (
-    rarity &&
-    `${SNEAKER_RARITY[rarity].minAttribute}-${SNEAKER_RARITY[rarity].maxAttribute}`
-  );
-};

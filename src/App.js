@@ -17,6 +17,7 @@ import { NavBar } from "./components/navbar";
 import { ShoeType } from "./components/shoe-type";
 import { ShoeSockets } from "./components/shoe-sockets";
 import { ShoeAttributes } from "./components/shoe-attributes";
+import { Outcome } from "./components/outcome";
 
 export const getSelectedSneaker = (list = []) =>
   list.filter((shoe) => shoe.selected)[0];
@@ -115,13 +116,24 @@ export const App = () => {
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
-                height: 240,
               }}
             >
               <ShoeAttributes
                 sneaker={sneaker}
                 onSave={saveSneaker}
               ></ShoeAttributes>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                height: 240,
+              }}
+            >
+              <Outcome sneaker={sneaker} onSave={saveSneaker}></Outcome>
             </Paper>
           </Grid>
         </Grid>

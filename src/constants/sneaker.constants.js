@@ -20,6 +20,13 @@ export const STATS = {
   resilience: "resilience",
 };
 
+export const DEFAULT_ADDED_STATS = {
+  efficiency: 0,
+  luck: 0,
+  comfort: 0,
+  resilience: 0,
+};
+
 export const NEW_SNEAKER = {
   selected: true,
   type: {
@@ -36,31 +43,26 @@ export const NEW_SNEAKER = {
       comfort: null,
       resilience: null,
     },
-    addedStats: {
-      efficiency: 0,
-      luck: 0,
-      comfort: 0,
-      resilience: 0,
-    }
+    addedStats: {...DEFAULT_ADDED_STATS}
   },
   sockets: {
     socket1: {
-      stat: 0,
+      stat: STATS.efficiency,
       gemLvl: 0,
       socketLvl: 0,
     },
     socket2: {
-      stat: 0,
+      stat: STATS.efficiency,
       gemLvl: 0,
       socketLvl: 0,
     },
     socket3: {
-      stat: 0,
+      stat: STATS.efficiency,
       gemLvl: 0,
       socketLvl: 0,
     },
     socket4: {
-      stat: 0,
+      stat: STATS.efficiency,
       gemLvl: 0,
       socketLvl: 0,
     },

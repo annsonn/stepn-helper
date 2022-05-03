@@ -3,11 +3,13 @@ import {
   SNEAKER_RARITY,
 } from "../constants/sneaker.constants";
 
-export const resetPoints = (sneaker) => {
-  const updated = { ...sneaker };
-  updated.attributes.addedStats = DEFAULT_ADDED_STATS;
-  return updated;
-};
+export const resetPoints = (sneaker) => ({
+  ...sneaker,
+  attributes: {
+    baseStats: sneaker.attributes.baseStats,
+    addedStats: { ...DEFAULT_ADDED_STATS },
+  },
+});
 
 export const pointsAvailable = ({ level = 0, rarity = "" }, pointUsed) => {
   return (

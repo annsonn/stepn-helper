@@ -6,12 +6,13 @@ import {
   repairCost,
   mboxChance,
   getGetLimit,
+  preOptimize,
 } from "../calculations/outcomes";
 
 export const Outcome = ({ sneaker = {}, onSave }) => {
   const optimize = () => {
-    const updatedSneaker = optimizePoints(sneaker);
-    onSave(updatedSneaker);
+    const updatedSneaker = preOptimize(sneaker);
+    onSave(optimizePoints(updatedSneaker));
   };
 
   return (

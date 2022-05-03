@@ -38,9 +38,9 @@ export const totalRes = (sneaker = {}) => {
   return (s = Math.round(10 * s) / 10);
 };
 
-export const getGetLimit = ({type: {level = 0} = {}}) => {
-    return gstLimit[level];
-}
+export const getGetLimit = ({ type: { level = 0 } = {} }) => {
+  return gstLimit[level];
+};
 
 export const gstPerDay = (sneaker) => {
   if (!sneaker.type || !checkHasBaseStats(sneaker)) return 0;
@@ -60,7 +60,6 @@ export const durability = (sneaker) => {
 export const repairCost = (sneaker) => {
   const { type: { rarity, level } = {} } = sneaker;
   if (!rarity || level === 0) return 0;
-  console.log('repairCost', rarity, level)
   let e = repairCostBase[rarity][level - 1],
     s = e * durability(sneaker);
   return e ? Math.round(100 * s) / 100 : "unknown";
@@ -77,28 +76,28 @@ export const mboxChance = (sneaker) => {
   return e;
 };
 
+export const preOptimize = (sneaker) => {
+  const updatedSneaker = resetPoints(sneaker);
+
+  updatedSneaker.attributes.addedStats.efficiency = pointsAvailable(
+    updatedSneaker.type
+  );
+
+  return updatedSneaker;
+};
+
 export const optimizePoints = (sneaker) => {
-  if ("unknown" !== repairCost(sneaker) && checkHasBaseStats(sneaker)) {
-    const updatedSneaker = resetPoints(sneaker);
-    updatedSneaker.attributes.addedStats.efficiency = pointsAvailable(
-      updatedSneaker.type
-    );
+  if ("unknown" !== repairCost(sneaker) && checkHasBaseStats(sneaker) ) {
+    let updatedSneaker = JSON.parse(JSON.stringify(sneaker));
 
-    // let e = {
-    //   fullEff: 0,
-    //   repairCost: 0,
-    //   pointsRes: 0,
-    // };
-    // e.fullEff = totalIncome(updatedSneaker);
-    // e.repairCost = repairCost(updatedSneaker);
+    let pointsToMove = 1;
+    do {
+        updatedSneaker.attributes.addedStats.resilience = updatedSneaker.attributes.addedStats.resilience+(1*pointsToMove);
+        updatedSneaker.attributes.addedStats.efficiency = updatedSneaker.attributes.addedStats.efficiency-(1*pointsToMove);
+        pointsToMove++
+        console.log(totalIncome(updatedSneaker), totalIncome(sneaker))
+    } while (totalIncome(updatedSneaker) < totalIncome(sneaker)); 
 
-    // while (
-    //   repairCost(updatedSneaker) === e.repairCost &&
-    //   updatedSneaker.attributes.addedPoints.efficiency >= 0
-    // ) {
-    //   updatedSneaker.attributes.addedPoints.resilience++;
-    //   updatedSneaker.attributes.addedPoints.efficiency--;
-    // }
     return updatedSneaker;
   }
 };

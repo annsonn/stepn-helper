@@ -89,15 +89,17 @@ export const preOptimize = (sneaker) => {
 export const optimizePoints = (sneaker) => {
   if ("unknown" !== repairCost(sneaker) && checkHasBaseStats(sneaker) ) {
     let updatedSneaker = JSON.parse(JSON.stringify(sneaker));
+    let previousSneaker;
 
     let pointsToMove = 1;
     do {
+        previousSneaker =  JSON.parse(JSON.stringify(updatedSneaker));
         updatedSneaker.attributes.addedStats.resilience = updatedSneaker.attributes.addedStats.resilience+(1*pointsToMove);
         updatedSneaker.attributes.addedStats.efficiency = updatedSneaker.attributes.addedStats.efficiency-(1*pointsToMove);
         pointsToMove++
-        console.log(totalIncome(updatedSneaker), totalIncome(sneaker))
-    } while (totalIncome(updatedSneaker) < totalIncome(sneaker)); 
+        console.log(totalIncome(updatedSneaker), totalIncome(previousSneaker))
+    } while (totalIncome(updatedSneaker) >= totalIncome(previousSneaker)); 
 
-    return updatedSneaker;
+    return previousSneaker;
   }
 };

@@ -11,7 +11,7 @@ import {
   Paper,
   Select,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NEW_SNEAKER } from "./constants/sneaker.constants";
 import { NavBar } from "./components/navbar";
 import { ShoeType } from "./components/shoe-type";
@@ -24,24 +24,34 @@ export const getSelectedSneaker = (list = []) =>
 
 export const App = () => {
   const sneakers = useLiveQuery(() => db?.sneakers.toArray(), []);
-  const [sneaker, setSneaker] = useState(getSelectedSneaker(sneakers));
+  const [sneaker, setSneaker] = useState();
+
+
+  useEffect(() => {
+    if (!sneaker) {
+      setSneaker(getSelectedSneaker(sneakers))
+    }
+  }, [sneakers, sneaker])
+
 
   const deleteAll = async () => {
     await db.delete();
     console.log("Database successfully deleted");
   };
 
-  const handleSelectSneaker = ({ target: { value: shoe } = {} }) => {
-    console.log("selected shoe", shoe);
-    if (shoe) {
-      setSneaker(shoe);
-    } else {
-      setSneaker({ ...NEW_SNEAKER });
+  const handleSelectSneaker = async ({ target: { value: shoe } = {} }) => {
+    if (sneaker) {
+      sneaker.selected = false;
+      await saveSneaker(sneaker);
     }
+
+    const selectedShoe = shoe ? shoe : JSON.parse(JSON.stringify(NEW_SNEAKER));
+    selectedShoe.selected = true;
+    await saveSneaker(selectedShoe);
+    setSneaker(selectedShoe);
   };
 
   const addSneaker = async (sneaker) => {
-    console.log("addSneaker", sneaker);
     const savedSneakerId = await db.sneakers.add({
       ...sneaker,
     });
@@ -49,7 +59,6 @@ export const App = () => {
   };
 
   const editSneaker = async (newSneaker) => {
-    console.log("editSneaker", sneaker);
     await db.sneakers.update(sneaker, { ...sneaker, ...newSneaker });
   };
 

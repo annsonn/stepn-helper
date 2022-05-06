@@ -1,7 +1,9 @@
 import { FormControl, Grid, InputLabel, MenuItem, Select } from "@mui/material";
+import { useEffect, useState } from "react";
 import { STATS } from "../constants/sneaker.constants";
+import { resolvePath } from "../utils";
 
-export const Socket = ({ index, socket = {}, onChange }) => {
+export const Socket = ({ index, socket = {}, onChange, disabled }) => {
   const handleSave = (stat, value) => {
     const updatedSocket = { ...socket };
     updatedSocket[stat] = value;
@@ -39,6 +41,7 @@ export const Socket = ({ index, socket = {}, onChange }) => {
             onChange={({ target: { value } = {} }) =>
               handleSave("gemLvl", value)
             }
+            disabled={disabled}
           >
             {[0, 1, 2, 3].map((gemLvl) => (
               <MenuItem key={`gem-level-${gemLvl}`} value={gemLvl}>
@@ -59,6 +62,7 @@ export const Socket = ({ index, socket = {}, onChange }) => {
             onChange={({ target: { value } = {} }) =>
               handleSave("socketLvl", value)
             }
+            disabled={disabled}
           >
             {[0, 1, 2, 3].map((socketLvl) => (
               <MenuItem key={`socket-level-${socketLvl}`} value={socketLvl}>
@@ -76,11 +80,17 @@ export const Socket = ({ index, socket = {}, onChange }) => {
 export const ShoeSockets = ({ sneaker = {}, onSave }) => {
   const { sockets: sneakerSockets = {} } = sneaker;
 
+  const [socketsUnlocked, setSocketsUnlocked] = useState(0);
+
   const saveSocket = (index, socket) => {
     const updatedSneaker = JSON.parse(JSON.stringify(sneaker));
     updatedSneaker.sockets[`socket${index}`] = socket;
     onSave(updatedSneaker);
   };
+
+  useEffect(() => {
+    setSocketsUnlocked(Math.trunc(resolvePath(sneaker, 'type.level', 0)/5));
+  }, [sneaker, setSocketsUnlocked])
 
   return (
     <>
@@ -88,21 +98,25 @@ export const ShoeSockets = ({ sneaker = {}, onSave }) => {
         socket={sneakerSockets.socket1}
         index={1}
         onChange={saveSocket}
+        disabled={socketsUnlocked < 1}
       ></Socket>
       <Socket
         socket={sneakerSockets.socket2}
         index={2}
         onChange={saveSocket}
+        disabled={socketsUnlocked < 2}
       ></Socket>
       <Socket
         socket={sneakerSockets.socket3}
         index={3}
         onChange={saveSocket}
+        disabled={socketsUnlocked < 3}
       ></Socket>
       <Socket
         socket={sneakerSockets.socket4}
         index={4}
         onChange={saveSocket}
+        disabled={socketsUnlocked < 4}
       ></Socket>
     </>
   );

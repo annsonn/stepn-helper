@@ -24,16 +24,16 @@ export const getSelectedSneaker = (list = []) =>
 
 export const App = () => {
   const sneakers = useLiveQuery(() => db?.sneakers.toArray(), []);
-  const [selectedSneakerId, setSelectedSneakerId] = useState()
+  const [selectedSneakerId, setSelectedSneakerId] = useState();
   const [sneaker, setSneaker] = useState();
 
   useEffect(() => {
     const selectedSneaker = getSelectedSneaker(sneakers);
     if (!sneaker && selectedSneaker) {
-      setSneaker(selectedSneaker)
-      setSelectedSneakerId(selectedSneaker.id)
+      setSneaker(selectedSneaker);
+      setSelectedSneakerId(selectedSneaker.id);
     }
-  }, [sneakers, sneaker, selectedSneakerId])
+  }, [sneakers, sneaker, selectedSneakerId]);
 
   const deleteAll = async () => {
     await db.delete();
@@ -41,15 +41,13 @@ export const App = () => {
   };
 
   const handleSelectSneaker = async ({ target: { value: sneakerId } = {} }) => {
-    console.log('handleSelectSneaker', sneakerId)
-    if (sneaker) {
-      sneaker.selected = false;
-      await saveSneaker(sneaker);
+    let selectedShoe;
+    if (sneakerId) {
+      selectedShoe = sneakers.filter((sneaker) => sneaker.id === sneakerId)[0];
+    } else {
+      selectedShoe = JSON.parse(JSON.stringify(NEW_SNEAKER));
+      await saveSneaker(selectedShoe);
     }
-
-    const selectedShoe = sneakerId ? sneakers.filter(sneaker => sneaker.id === sneakerId)[0] : JSON.parse(JSON.stringify(NEW_SNEAKER));
-    selectedShoe.selected = true;
-    await saveSneaker(selectedShoe);
     setSneaker(selectedShoe);
   };
 
@@ -89,12 +87,12 @@ export const App = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={selectedSneakerId ?? ""}
+            value={selectedSneakerId ?? " "}
             label="Select Sneaker"
             onChange={handleSelectSneaker}
           >
             {renderSneakerItems()}
-            <MenuItem value={''}>Add New Sneaker+</MenuItem>
+            <MenuItem value={""}>Add New Sneaker+</MenuItem>
           </Select>
         </FormControl>
         <Grid container spacing={3} p={2}>

@@ -35,7 +35,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
         <FormControl fullWidth margin="normal">
           <InputLabel id="rarity">Rarity</InputLabel>
           <Select
-            value={sneakerType.rarity}
+            value={sneakerType.rarity  ?? " "}
             label="Rarity"
             onChange={({ target: { value } }) =>
               updateSneakerType("rarity", value)
@@ -47,7 +47,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
         <FormControl fullWidth margin="normal">
           <InputLabel id="type">Type</InputLabel>
           <Select
-            value={sneakerType.type}
+            value={sneakerType.type ?? " "}
             label="Type"
             onChange={({ target: { value } }) =>
               updateSneakerType("type", value)
@@ -61,7 +61,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
             label="Level"
             type="number"
             variant="outlined"
-            value={sneakerType.level}
+            value={sneakerType.level  ?? " "}
             onChange={({ target: { value } }) =>
               updateSneakerType("level", value)
             }
@@ -72,7 +72,7 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
             label="Daily Energy"
             type="number"
             variant="outlined"
-            value={sneakerType.dailyEnergy}
+            value={sneakerType.dailyEnergy  ?? " "}
             onChange={({ target: { value } }) =>
               updateSneakerType("dailyEnergy", value)
             }

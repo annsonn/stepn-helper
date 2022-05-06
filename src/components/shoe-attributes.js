@@ -35,7 +35,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         <TextField
           value={baseStats.efficiency}
           placeholder={baseAttributePlaceholder}
-          variant="standard"
           onChange={({ target: { value } }) =>
             updateBaseStats("efficiency", value)
           }
@@ -54,9 +53,8 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       </Grid>
       <Grid item xs={3}>
         <TextField
-          value={baseStats.luck}
+          value={baseStats.luck }
           placeholder={baseAttributePlaceholder}
-          variant="standard"
           onChange={({ target: { value } }) => updateBaseStats("luck", value)}
         />
       </Grid>
@@ -75,7 +73,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         <TextField
           value={baseStats.comfort}
           placeholder={baseAttributePlaceholder}
-          variant="standard"
           onChange={({ target: { value } }) =>
             updateBaseStats("comfort", value)
           }
@@ -96,7 +93,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
         <TextField
           value={baseStats.resilience}
           placeholder={baseAttributePlaceholder}
-          variant="standard"
           onChange={({ target: { value } }) =>
             updateBaseStats("resilience", value)
           }

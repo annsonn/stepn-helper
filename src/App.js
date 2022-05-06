@@ -24,28 +24,29 @@ export const getSelectedSneaker = (list = []) =>
 
 export const App = () => {
   const sneakers = useLiveQuery(() => db?.sneakers.toArray(), []);
+  const [selectedSneakerId, setSelectedSneakerId] = useState()
   const [sneaker, setSneaker] = useState();
 
-
   useEffect(() => {
-    if (!sneaker) {
-      setSneaker(getSelectedSneaker(sneakers))
+    const selectedSneaker = getSelectedSneaker(sneakers);
+    if (!sneaker && selectedSneaker) {
+      setSneaker(selectedSneaker)
+      setSelectedSneakerId(selectedSneaker.id)
     }
-  }, [sneakers, sneaker])
-
+  }, [sneakers, sneaker, selectedSneakerId])
 
   const deleteAll = async () => {
     await db.delete();
     console.log("Database successfully deleted");
   };
 
-  const handleSelectSneaker = async ({ target: { value: shoe } = {} }) => {
+  const handleSelectSneaker = async ({ target: { value: sneakerId } = {} }) => {
     if (sneaker) {
       sneaker.selected = false;
       await saveSneaker(sneaker);
     }
-    
-    const selectedShoe = shoe ? shoe : JSON.parse(JSON.stringify(NEW_SNEAKER));
+
+    const selectedShoe = sneakerId ? sneakers.filter(sneaker => sneaker.id === sneakerId)[0] : JSON.parse(JSON.stringify(NEW_SNEAKER));
     selectedShoe.selected = true;
     await saveSneaker(selectedShoe);
     setSneaker(selectedShoe);
@@ -74,7 +75,7 @@ export const App = () => {
     sneakers &&
     sneakers.map((sneaker) => (
       <MenuItem
-        value={sneaker}
+        value={sneaker.id}
       >{`${sneaker.type.rarity}-${sneaker.type.type}-${sneaker.type.level}`}</MenuItem>
     ));
 
@@ -87,12 +88,12 @@ export const App = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={sneaker}
+            value={selectedSneakerId ?? " "}
             label="Select Sneaker"
             onChange={handleSelectSneaker}
           >
             {renderSneakerItems()}
-            <MenuItem value={0}>Add New Sneaker+</MenuItem>
+            <MenuItem>Add New Sneaker+</MenuItem>
           </Select>
         </FormControl>
         <Grid container spacing={3} p={2}>
@@ -113,7 +114,6 @@ export const App = () => {
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
-                height: 240,
               }}
             >
               <ShoeSockets sneaker={sneaker} onSave={saveSneaker}></ShoeSockets>

@@ -2,12 +2,13 @@ import { gstLimit, repairCostBase } from "../constants/calc.constants";
 import { SNEAKER_TYPE } from "../constants/sneaker.constants";
 import { getSocketValue } from "./sockets";
 import { checkHasBaseStats, pointsAvailable, resetPoints } from "./stats";
+import { resolvePath } from "../utils";
 
 export const totalEff = (sneaker = {}) => {
   let e = getSocketValue("efficiency", sneaker),
     s =
-      +sneaker.attributes.baseStats.efficiency +
-      +sneaker.attributes.addedStats.efficiency +
+      +resolvePath(sneaker, "attributes.baseStats.efficiency", 0) +
+      +resolvePath(sneaker, "attributes.addedStats.efficiency", 0) +
       +e;
   return (s = Math.round(10 * s) / 10);
 };
@@ -15,16 +16,16 @@ export const totalEff = (sneaker = {}) => {
 export const totalLuck = (sneaker = {}) => {
   let e = getSocketValue("luck", sneaker),
     s =
-      +sneaker.attributes.baseStats.luck +
-      +sneaker.attributes.addedStats.luck +
+      +resolvePath(sneaker, "attributes.baseStats.luck", 0) +
+      +resolvePath(sneaker, "attributes.addedStats.luck", 0) +
       +e;
   return (s = Math.round(10 * s) / 10);
 };
 export const totalComf = (sneaker = {}) => {
   let e = getSocketValue("comfort", sneaker),
     s =
-      +sneaker.attributes.baseStats.comfort +
-      +sneaker.attributes.addedStats.comfort +
+      +resolvePath(sneaker, "attributes.baseStats.comfort", 0) +
+      +resolvePath(sneaker, "attributes.addedStats.comfort", 0) +
       +e;
   return (s = Math.round(10 * s) / 10);
 };
@@ -32,8 +33,8 @@ export const totalComf = (sneaker = {}) => {
 export const totalRes = (sneaker = {}) => {
   let e = getSocketValue("resilience", sneaker),
     s =
-      +sneaker.attributes.baseStats.resilience +
-      +sneaker.attributes.addedStats.resilience +
+      +resolvePath(sneaker, "attributes.baseStats.resilience", 0) +
+      +resolvePath(sneaker, "attributes.addedStats.resilience", 0) +
       +e;
   return (s = Math.round(10 * s) / 10);
 };
@@ -87,17 +88,19 @@ export const preOptimize = (sneaker) => {
 };
 
 export const optimizePoints = (sneaker) => {
-  if ("unknown" !== repairCost(sneaker) && checkHasBaseStats(sneaker) ) {
+  if ("unknown" !== repairCost(sneaker) && checkHasBaseStats(sneaker)) {
     let updatedSneaker = JSON.parse(JSON.stringify(sneaker));
     let previousSneaker;
 
     let pointsToMove = 1;
     do {
-        previousSneaker =  JSON.parse(JSON.stringify(updatedSneaker));
-        updatedSneaker.attributes.addedStats.resilience = updatedSneaker.attributes.addedStats.resilience+(1*pointsToMove);
-        updatedSneaker.attributes.addedStats.efficiency = updatedSneaker.attributes.addedStats.efficiency-(1*pointsToMove);
-        pointsToMove++
-    } while (totalIncome(updatedSneaker) >= totalIncome(previousSneaker)); 
+      previousSneaker = JSON.parse(JSON.stringify(updatedSneaker));
+      updatedSneaker.attributes.addedStats.resilience =
+        updatedSneaker.attributes.addedStats.resilience + 1 * pointsToMove;
+      updatedSneaker.attributes.addedStats.efficiency =
+        updatedSneaker.attributes.addedStats.efficiency - 1 * pointsToMove;
+      pointsToMove++;
+    } while (totalIncome(updatedSneaker) >= totalIncome(previousSneaker));
 
     return previousSneaker;
   }

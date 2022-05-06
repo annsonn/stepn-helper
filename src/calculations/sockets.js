@@ -5,6 +5,10 @@ export const getSocketValue = (type, sneaker) => {
 
   let result = 0;
 
+  if (!sockets || !attributes) {
+    return result;
+  }
+
   Object.values(sockets).forEach(({ stat, gemLvl, socketLvl }) => {
     if (stat === type) {
       const gemPoints = gemsSocketsParams.gemPoints[gemLvl],

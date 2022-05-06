@@ -41,6 +41,7 @@ export const App = () => {
   };
 
   const handleSelectSneaker = async ({ target: { value: sneakerId } = {} }) => {
+    console.log('handleSelectSneaker', sneakerId)
     if (sneaker) {
       sneaker.selected = false;
       await saveSneaker(sneaker);
@@ -88,12 +89,12 @@ export const App = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={selectedSneakerId ?? " "}
+            value={selectedSneakerId ?? ""}
             label="Select Sneaker"
             onChange={handleSelectSneaker}
           >
             {renderSneakerItems()}
-            <MenuItem>Add New Sneaker+</MenuItem>
+            <MenuItem value={''}>Add New Sneaker+</MenuItem>
           </Select>
         </FormControl>
         <Grid container spacing={3} p={2}>

@@ -23,7 +23,7 @@ export const Outcome = ({ sneaker = {}, onSave }) => {
         {sneaker && getGetLimit(sneaker)}
       </div>
       <div>REPAIR COST {sneaker && repairCost(sneaker)}</div>
-      <div>MYSTERY BOX CHANGE {sneaker && mboxChance(sneaker)}</div>
+      <div>MYSTERY BOX CHANCE {sneaker && mboxChance(sneaker)}</div>
       <Button onClick={optimize}>Optimize</Button>
     </Container>
   );

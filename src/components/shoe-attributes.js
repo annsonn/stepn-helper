@@ -7,7 +7,7 @@ import {
 } from "../calculations/stats";
 
 export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
-  const { attributes: { baseStats = {}, addedStats = {} } = {}, type: sneakerType = {} } =
+  const { attributes: { baseStats = {} } = {}, type: sneakerType = {} } =
     sneaker;
 
   const points = pointsAvailable(sneakerType);

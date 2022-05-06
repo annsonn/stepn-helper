@@ -97,7 +97,6 @@ export const optimizePoints = (sneaker) => {
         updatedSneaker.attributes.addedStats.resilience = updatedSneaker.attributes.addedStats.resilience+(1*pointsToMove);
         updatedSneaker.attributes.addedStats.efficiency = updatedSneaker.attributes.addedStats.efficiency-(1*pointsToMove);
         pointsToMove++
-        console.log(totalIncome(updatedSneaker), totalIncome(previousSneaker))
     } while (totalIncome(updatedSneaker) >= totalIncome(previousSneaker)); 
 
     return previousSneaker;

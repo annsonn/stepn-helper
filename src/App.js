@@ -44,7 +44,7 @@ export const App = () => {
       sneaker.selected = false;
       await saveSneaker(sneaker);
     }
-
+    
     const selectedShoe = shoe ? shoe : JSON.parse(JSON.stringify(NEW_SNEAKER));
     selectedShoe.selected = true;
     await saveSneaker(selectedShoe);

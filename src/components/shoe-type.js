@@ -12,15 +12,15 @@ export const ShoeType = ({ sneaker = {}, onSave }) => {
   const { type: sneakerType = { rarity: "common", type: "walker" } } = sneaker;
 
   const renderRarityOptions = () =>
-    Object.values(SNEAKER_RARITY).map((rarity) => (
-      <MenuItem value={rarity.label}>
+    Object.values(SNEAKER_RARITY).map((rarity, key) => (
+      <MenuItem key={key} value={rarity.label}>
         {rarity.label.toString().toUpperCase()}
       </MenuItem>
     ));
 
   const renderTypeOptions = () =>
-    Object.values(SNEAKER_TYPE).map((type) => (
-      <MenuItem value={type}>{type.toString().toUpperCase()}</MenuItem>
+    Object.values(SNEAKER_TYPE).map((type, key) => (
+      <MenuItem key={key} value={type}>{type.toString().toUpperCase()}</MenuItem>
     ));
 
   const updateSneakerType = (key, value) => {

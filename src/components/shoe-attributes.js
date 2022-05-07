@@ -56,9 +56,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       <Grid item xs={2}>
         <TextField
           value={totalEff(sneaker)}
-          InputProps={{
-            readOnly: true,
-          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -82,9 +79,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       <Grid item xs={2}>
         <TextField
           value={totalLuck(sneaker)}
-          InputProps={{
-            readOnly: true,
-          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -110,9 +104,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       <Grid item xs={2}>
         <TextField
           value={totalComf(sneaker)}
-          InputProps={{
-            readOnly: true,
-          }}
         />
       </Grid>
       <Grid item xs={6}>
@@ -138,9 +129,6 @@ export const ShoeAttributes = ({ sneaker = {}, onSave }) => {
       <Grid item xs={2}>
         <TextField
           value={totalRes(sneaker)}
-          InputProps={{
-            readOnly: true,
-          }}
         />
       </Grid>
       <Grid item xs={6}>
